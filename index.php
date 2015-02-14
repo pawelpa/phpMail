@@ -61,16 +61,7 @@ if (!isset($_POST['from']) || !isset($_POST['subject']) || !isset($_POST['to']) 
         echo '<script language="javascript">alert("wrong auth code");window.location="index.php";</script>';
         
     } else {
-        $mail = new phpMail($to, $subject);
-        $mail->setMessageBodyFromFile('./html');
-        $mail->setBase64();
-        $mail->setCustomHeaders(array('From:' => 'unknown@example.com',
-                                'Reply-to:' => $from,
-                                'MIME-Version:' => '1.0',
-                                'Content-type:' => 'text/html; charset="utf-8"'
-                                )
-                        );
-        echo $mail->send(true);
+        //example here
     }
 }
 ?>
