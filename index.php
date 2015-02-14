@@ -56,15 +56,13 @@ if (!isset($_POST['from']) || !isset($_POST['subject']) || !isset($_POST['to']) 
     if(isset($_POST['base64']) && $_POST['base64'] == 'on') {
         $base64 = true;
     }
-    //var_dump($_POST);
-    //die;
-    
+       
     if (md5($_POST['auth_code']) != "1667ad5c953c679e70dd920ccddb208f") {
         echo '<script language="javascript">alert("wrong auth code");window.location="index.php";</script>';
         
     } else {
         $mail = new phpMail($to, $subject);
-        $mail->setMessageFile('./html');
+        $mail->setMessageBodyFromFile('./html');
         $mail->setBase64();
         $mail->setCustomHeaders(array('From:' => 'unknown@example.com',
                                 'Reply-to:' => $from,
@@ -72,7 +70,7 @@ if (!isset($_POST['from']) || !isset($_POST['subject']) || !isset($_POST['to']) 
                                 'Content-type:' => 'text/html; charset="utf-8"'
                                 )
                         );
-        echo $mail->sendMail(true);
+        echo $mail->send(true);
     }
 }
 ?>
