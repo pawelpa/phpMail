@@ -66,7 +66,7 @@ if (!isset($_POST['from']) || !isset($_POST['subject']) || !isset($_POST['to']) 
         $mail = new phpMail($to, $subject);
         $mail->setMessageFile('./html');
         $mail->setBase64();
-        $mail->setCustomHeaders(array('From:' => 'webmaster@interview.esy.es',
+        $mail->setCustomHeaders(array('From:' => 'unknown@example.com',
                                 'Reply-to:' => $from,
                                 'MIME-Version:' => '1.0',
                                 'Content-type:' => 'text/html; charset="utf-8"'
