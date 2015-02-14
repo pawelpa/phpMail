@@ -2,7 +2,7 @@
 
 /* Copyright © ppaste@gmail.com */
 
-//TODO: html file + attachement don't work correctly wrong encoding...
+
 //TODO: setMessageBody force mime-type
 //TODO: Cc and Bcc check for address duplicates
 //TODO: field validation
@@ -42,7 +42,7 @@ class phpMail {
     }
 
     private function loadContentFromFile() {
-        //TODO: check if file content is text/html
+        
         $this->message_body = file_get_contents($this->message_file);
 
         if ($this->message_body != FALSE) {
@@ -78,10 +78,7 @@ class phpMail {
     private function writeHeadersFields($headers = array()) {
 
         if ($headers != null && is_array($headers)) {
-
-            // echo 'processing headers...';
             foreach ($headers as $name => $value) {
-                //$this->headers .= $name . ' ' . $value . "\r\n";
                 $this->writeHeaderField($name, $value);
             }
         }
@@ -208,7 +205,6 @@ class phpMail {
     }
 
     public function setTo($address) {
-
         $to_email = filter_var($address, FILTER_VALIDATE_EMAIL);
         if (!$to_email)
             throw new Exception('email address is not valid!');
@@ -216,7 +212,6 @@ class phpMail {
     }
 
     public function eraseMessage() {
-
         $this->message_body = null;
         $this->message_file = null;
     }
@@ -267,21 +262,14 @@ class phpMail {
             "Content-type:" => "multipart/mixed; boundary=\"{$main_bundary}\""
         ));
 
-        //$info = new finfo(FILEINFO_MIME);
-
         $temp_body = "--{$main_bundary}" . "\r\n" .
                 "Content-type: multipart/related; boundary=\"{$next_bundary}\"" .
                 "\r\n" . "\r\n";
-
-        //TODO:what if there is no message_body?
-
 
         $temp_body .= "--{$next_bundary}" . "\r\n" .
                 'Content-type: ' . $this->message_body_mime . '; charset="UTF-8"' . "\r\n" .
                 "Content-Transfer-Encoding: {$this->encoding}" . "\r\n\r\n";
         $temp_body .= $this->message_body;
-
-        //what if there is no message_body?
 
         foreach ($this->attachments as $attachment) {
             $attachment_type = $this->get_mime_info($attachment['data']);
@@ -306,10 +294,6 @@ class phpMail {
     }
 
     public function send($debug = false) {
-
-//        if (!$this->message_body && !$this->message_file) {
-//            throw new Exception('Message not set! Use setMessageBody or setMessageFile');
-//        }
 
         if (!$this->to)
             throw new Exception('destination email address is not set');
